@@ -132,6 +132,19 @@ zoom e                          zoom to extents
 
 The web build: `cd apps/cadcraft-web && trunk serve` (needs [trunk](https://trunkrs.dev)).
 
+To deploy it on a Python web server, build the static site once and serve it on port 8765:
+
+```sh
+cd apps/cadcraft-web && trunk build --release   # static site in ../../dist/web
+python3 packaging/web/serve.py                   # serves it at http://localhost:8765
+```
+
+`serve.py` is standard-library Python (3.8+) and sends the headers a static CADCraft site
+needs — `.wasm` as `application/wasm`, content-hashed assets cached as immutable,
+`index.html` revalidated. It also serves an unpacked `cadcraft-web-<ver>` release bundle:
+inside it, `python3 serve.py` or `python3 -m http.server 8765`, then open
+http://localhost:8765. Hosting notes: [packaging/web/README.md](packaging/web/README.md).
+
 ## Drive it from agents, MCP and the CLI
 
 ```sh
@@ -214,6 +227,10 @@ Installers and executables are code-signed.
 | Build | File | Notes |
 |---|---|---|
 | Static site | `cadcraft-web-<ver>.zip` | Runs in a modern browser; host it on any static server |
+
+Unzip it and serve the `cadcraft-web-<ver>/` folder with any static server. With Python:
+`python3 serve.py` (included in the zip) or `python3 -m http.server 8765`, then open
+http://localhost:8765.
 
 ## The Crafting Apps
 

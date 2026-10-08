@@ -9,6 +9,7 @@ static site in `cadcraft-web-<version>/`:
 | `cadcraft-web-<hash>.js` | wasm-bindgen glue (generated, ES module) |
 | `cadcraft-web-<hash>_bg.wasm` | The app, about 13 MB, or 5 MB with compression |
 | `_headers`, `.htaccess` | Sample header rules for Netlify/Cloudflare Pages and Apache |
+| `serve.py` | Serves the folder with Python: `python3 serve.py`, then open http://localhost:8765 |
 
 There is no server-side code. Upload the folder's contents anywhere that serves static files.
 
@@ -48,7 +49,10 @@ location /cadcraft/ {
 }
 ```
 
-Local test: `python3 -m http.server 8765` inside the folder, then open http://localhost:8765/.
+Local test with Python: `python3 serve.py` inside the folder, then open http://localhost:8765/.
+From a source checkout, `python3 packaging/web/serve.py` serves the `dist/web` build the same
+way. A plain `python3 -m http.server 8765` works too on recent Python; `serve.py` also sends
+the MIME and cache headers above.
 
 ## Embedding in a page (iframe)
 
